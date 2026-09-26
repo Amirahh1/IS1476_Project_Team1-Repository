@@ -1,0 +1,25 @@
+# CODE|TITLE|CREDIT_HOURS|PREREQUISITES (comma separated, - for none)
+CS1111|Computing Fundamentals and Ethics|3|-
+CS1140|Introduction to Computer Programming|4|CS1111
+CS1241|Object-Oriented Programming|4|CS1140
+CS1242|Data Structures|4|CS1241
+CS1322|Operating Systems|4|CS1242
+IS1130|Requirements Engineering|3|-
+IS1200|Management Competences|2|IS1130
+IS1235|System Analysis and Design|3|IS1130
+IS1220|Introduction to Databases|4|IS1130,CS1242
+IS1241|Principles of Project Management|3|IS1235
+IS1290|Business Communication|2|IS1200
+IS1310|Enterprise Architecture|3|IS1241
+IS1321|Databases Management Systems|4|IS1220
+IS1330|Fundamentals of Data Networks|4|CS1322
+IS1337|Application Development|3|IS1321
+IS1341|IT Infrastructure|3|CS1322
+IS1382|Strategy and Business Models|3|IS1310
+IS1460|E-Business|3|IS1337
+IS1480|Graduation Project 1|3|IS1241,IS1290,IS1337
+IS1489|Information Security|3|IS1330
+IS1372|Human Computer Interaction|3|IS1220
+IS1474|User Experience|3|IS1220
+IS1476|Software Quality and Experience|3|IS1241
+IS1478|Selected Topics in User Experience|3|IS1241
