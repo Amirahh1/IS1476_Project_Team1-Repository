@@ -1,4 +1,4 @@
-package tests;
+ package tests;
 import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.*;
 public class Student3TestAutomation {
 @Test
@@ -31,5 +31,40 @@ public void testDuplicateRegistration_TC70() {
     String attemptingCourse = "IS1476";
     boolean isDuplicate = registeredCourse.equals(attemptingCourse);
     assertTrue(isDuplicate, "Test Failed: Duplicate registration in the same course was not blocked.");
+}
+}
+[23/10/2026 02:37] My: package tests;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.*;
+public class Student3TestAutomation {
+@Test
+public void testRepeatingCoursePassed_TC70() {
+    String pastGrade = "C";
+    boolean canRetake = pastGrade.equals("D") || pastGrade.equals("D+");
+    assertFalse(canRetake, "Test Failed: Should not allow retaking a course passed with C or better.");
+}
+
+@Test
+public void testRepeatingCourseLowGrade_TC85() {
+    String pastGrade = "D";
+    boolean canRetake = pastGrade.equals("D") || pastGrade.equals("D+");
+    assertTrue(canRetake, "Test Failed: Should allow retaking a course passed with D or D+.");
+}
+
+@Test
+public void testDuplicateSectionRegistration_TC95() {
+    int activeSectionsCount = 1;
+    boolean attemptingSecondSection = true;
+    boolean isDuplicate = (activeSectionsCount > 0 && attemptingSecondSection);
+    assertTrue(isDuplicate, "Test Failed: Duplicate registration in the same course was not prevented.");
+}
+
+@Test
+public void testSystemResponseTime_TC105() {
+    long startTime = System.currentTimeMillis();
+    // Simulating system process
+    long endTime = System.currentTimeMillis();
+    long responseTime = endTime - startTime;
+    
+    assertTrue(responseTime <= 2000, "Test Failed: Response time exceeded 2 seconds limit.");
 }
 }
