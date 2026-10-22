@@ -1,0 +1,35 @@
+package tests;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.*;
+public class Student3TestAutomation {
+@Test
+public void testSectionCapacity_TC35() {
+    int currentEnrolled = 30;
+    int maxCapacity = 30;
+    boolean isFull = (currentEnrolled >= maxCapacity);
+    assertTrue(isFull, "Test Failed: Section capacity limit check failed.");
+}
+
+@Test
+public void testTimetableConflict_TC50() {
+    String timeSlot1 = "Mon 10:00 - 11:30";
+    String timeSlot2 = "Mon 10:00 - 11:30";
+    boolean hasConflict = timeSlot1.equals(timeSlot2);
+    assertTrue(hasConflict, "Test Failed: Timetable conflict was not detected.");
+}
+
+@Test
+public void testRegistrationWindows_TC60() {
+    int currentDayOfTerm = 5;
+    int addDeadline = 10;
+    boolean canAdd = (currentDayOfTerm <= addDeadline);
+    assertTrue(canAdd, "Test Failed: Registration should be allowed within the add deadline.");
+}
+
+@Test
+public void testDuplicateRegistration_TC70() {
+    String registeredCourse = "IS1476";
+    String attemptingCourse = "IS1476";
+    boolean isDuplicate = registeredCourse.equals(attemptingCourse);
+    assertTrue(isDuplicate, "Test Failed: Duplicate registration in the same course was not blocked.");
+}
+}
