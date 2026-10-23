@@ -1,89 +1,238 @@
+package tests;
+
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class Student3TestAutomation {
 
-    @ParameterizedTest(name = "Executing {0} for Requirement {1}")
-    @CsvSource({
-        "T-71, R6.1, A, REJECTED",
-        "T-72, R6.1, B+, REJECTED",
-        "T-73, R6.1, B, REJECTED",
-        "T-74, R6.1, C+, REJECTED",
-        "T-75, R6.1, C, REJECTED",
-        "T-76, R6.2, D+, ACCEPTED",
-        "T-77, R6.2, D, ACCEPTED",
-        "T-78, R6.2, F, ACCEPTED",
-        "T-79, R6.1, A, REJECTED",
-        "T-80, R6.1, B, REJECTED",
-        "T-81, R6.1, C, REJECTED",
-        "T-82, R6.2, D, ACCEPTED",
-        "T-83, R6.1, A, REJECTED",
-        "T-84, R6.2, D+, ACCEPTED",
-        "T-85, R7.1, REGISTERED, REJECTED",
-        "T-86, R7.1, REGISTERED, REJECTED",
-        "T-87, R7.1, REGISTERED, REJECTED",
-        "T-88, R7.2, REGISTERED, REJECTED",
-        "T-89, R7.2, REGISTERED, REJECTED",
-        "T-90, R7.2, REGISTERED, REJECTED",
-        "T-91, R7.1, REGISTERED, REJECTED",
-        "T-92, R7.1, REGISTERED, REJECTED",
-        "T-93, R7.1, NONE, ACCEPTED",
-        "T-94, R7.1, NONE, ACCEPTED",
-        "T-95, R7.1, NONE, ACCEPTED"
-    })
-    public void testRegistrationRules(String testId, String reqId, String condition, String expectedResult) {
-        boolean result = evaluateRule(condition);
-        if ("REJECTED".equals(expectedResult)) {
-            assertFalse(result, testId + " failed: Expected registration to be blocked.");
-        } else {
-            assertTrue(result, testId + " failed: Expected registration to be allowed.");
-        }
-    }
+    // ========================================================
+    // Student 3 Scope: TC-71 to TC-105
+    // Requirements: R6 (Course Repetition), R7 (Duplicate Registration),
+    //               N1 (Error Feedback), N2 (Performance)
+    // ========================================================
 
-    @ParameterizedTest(name = "Testing Non-Functional Requirement {0}")
-    @CsvSource({
-        "T-96, N1, Prerequisite_Missing",
-        "T-97, N1, Course_Full",
-        "T-98, N1, Schedule_Conflict",
-        "T-99, N1, Credit_Limit_Exceeded",
-        "T-100, N1, Duplicate_Section"
-    })
-    public void testErrorMessagesN1(String testId, String reqId, String errorType) {
-        String errorMessage = generateErrorMessage(errorType);
-        assertNotNull(errorMessage, testId + " failed: Error message should not be null.");
-        assertFalse(errorMessage.isEmpty(), testId + " failed: Error message must provide actionable details.");
-    }
+    // --------------------------------------------------------
+    // R6 — Course Repetition (TC-71 to TC-84)
+    // --------------------------------------------------------
 
+    // TC-71: Block registration for IS1476 passed with grade A
     @Test
-    public void testPerformanceResponseTimeN2() {
-        long startTime = System.currentTimeMillis();
-        
-        simulateSystemLoad();
-        
-        long endTime = System.currentTimeMillis();
-        long responseTime = endTime - startTime;
-        
-        assertTrue(responseTime <= 2000, "Performance test failed: Response time exceeded 2 seconds.");
+    void testTC71_CourseRepetition_IS1476_GradeA() {
+        // Add the implementation
     }
 
-    private boolean evaluateRule(String condition) {
-        if ("REJECTED".equals(condition) || "REGISTERED".equals(condition) || "A".equals(condition) || "B+".equals(condition) || "B".equals(condition) || "C+".equals(condition) || "C".equals(condition)) {
-            return false;
-        }
-        return true;
+    // TC-72: Block registration for IS1476 passed with grade B+
+    @Test
+    void testTC72_CourseRepetition_IS1476_GradeBPlus() {
+        // Add the implementation
     }
 
-    private String generateErrorMessage(String errorType) {
-        return "Error: Action required for " + errorType;
+    // TC-73: Block registration for IS1476 passed with grade B
+    @Test
+    void testTC73_CourseRepetition_IS1476_GradeB() {
+        // Add the implementation
     }
 
-    private void simulateSystemLoad() {
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+    // TC-74: Block registration for IS1476 passed with grade C+
+    @Test
+    void testTC74_CourseRepetition_IS1476_GradeCPlus() {
+        // Add the implementation
+    }
+
+    // TC-75: Block registration for IS1476 passed with grade C
+    @Test
+    void testTC75_CourseRepetition_IS1476_GradeC() {
+        // Add the implementation
+    }
+
+    // TC-76: Allow registration for IS1476 passed with grade D+ to improve
+    @Test
+    void testTC76_CourseRepetition_IS1476_GradeDPlus() {
+        // Add the implementation
+    }
+
+    // TC-77: Allow registration for IS1476 passed with grade D to improve
+    @Test
+    void testTC77_CourseRepetition_IS1476_GradeD() {
+        // Add the implementation
+    }
+
+    // TC-78: Allow registration for IS1476 failed with grade F
+    @Test
+    void testTC78_CourseRepetition_IS1476_GradeF() {
+        // Add the implementation
+    }
+
+    // TC-79: Block registration for IS1474 passed with grade A
+    @Test
+    void testTC79_CourseRepetition_IS1474_GradeA() {
+        // Add the implementation
+    }
+
+    // TC-80: Block registration for IS1474 passed with grade B
+    @Test
+    void testTC80_CourseRepetition_IS1474_GradeB() {
+        // Add the implementation
+    }
+
+    // TC-81: Block registration for IS1474 passed with grade C
+    @Test
+    void testTC81_CourseRepetition_IS1474_GradeC() {
+        // Add the implementation
+    }
+
+    // TC-82: Allow registration for IS1474 passed with grade D
+    @Test
+    void testTC82_CourseRepetition_IS1474_GradeD() {
+        // Add the implementation
+    }
+
+    // TC-83: Block registration for IS1470 passed with grade A
+    @Test
+    void testTC83_CourseRepetition_IS1470_GradeA() {
+        // Add the implementation
+    }
+
+    // TC-84: Allow registration for IS1470 passed with grade D+
+    @Test
+    void testTC84_CourseRepetition_IS1470_GradeDPlus() {
+        // Add the implementation
+    }
+
+    // --------------------------------------------------------
+    // R7 — Duplicate Registration (TC-85 to TC-95)
+    // --------------------------------------------------------
+
+    // TC-85: Block registering in two sections of IS1476 (sec 01 & sec 02)
+    @Test
+    void testTC85_DuplicateRegistration_IS1476_Sec01_Sec02() {
+        // Add the implementation
+    }
+
+    // TC-86: Block registering in two sections of IS1476 (sec 02 & sec 01)
+    @Test
+    void testTC86_DuplicateRegistration_IS1476_Sec02_Sec01() {
+        // Add the implementation
+    }
+
+    // TC-87: Block registering in two sections of IS1476 (sec 03 & sec 01)
+    @Test
+    void testTC87_DuplicateRegistration_IS1476_Sec03_Sec01() {
+        // Add the implementation
+    }
+
+    // TC-88: Block submitting section 01 again for IS1476
+    @Test
+    void testTC88_DuplicateSectionSubmit_IS1476_Sec01() {
+        // Add the implementation
+    }
+
+    // TC-89: Block submitting section 02 again for IS1476
+    @Test
+    void testTC89_DuplicateSectionSubmit_IS1476_Sec02() {
+        // Add the implementation
+    }
+
+    // TC-90: Block submitting section 01 again for IS1474
+    @Test
+    void testTC90_DuplicateSectionSubmit_IS1474_Sec01() {
+        // Add the implementation
+    }
+
+    // TC-91: Block registering in two sections of IS1474 (sec 01 & sec 02)
+    @Test
+    void testTC91_DuplicateRegistration_IS1474_Sec01_Sec02() {
+        // Add the implementation
+    }
+
+    // TC-92: Block registering in two sections of IS1474 (sec 02 & sec 03)
+    @Test
+    void testTC92_DuplicateRegistration_IS1474_Sec02_Sec03() {
+        // Add the implementation
+    }
+
+    // TC-93: Allow initial registration for IS1476 section 01
+    @Test
+    void testTC93_InitialRegistration_IS1476() {
+        // Add the implementation
+    }
+
+    // TC-94: Allow initial registration for IS1474 section 01
+    @Test
+    void testTC94_InitialRegistration_IS1474() {
+        // Add the implementation
+    }
+
+    // TC-95: Allow initial registration for IS1470 section 01
+    @Test
+    void testTC95_InitialRegistration_IS1470() {
+        // Add the implementation
+    }
+
+    // --------------------------------------------------------
+    // N1 — Error Feedback (TC-96 to TC-100)
+    // --------------------------------------------------------
+
+    // TC-96: Show actionable error message when prerequisite is missing
+    @Test
+    void testTC96_ErrorMessage_PrerequisiteMissing() {
+        // Add the implementation
+    }
+
+    // TC-97: Show actionable error message when course is full
+    @Test
+    void testTC97_ErrorMessage_CourseFull() {
+        // Add the implementation
+    }
+
+    // TC-98: Show actionable error message on schedule conflict
+    @Test
+    void testTC98_ErrorMessage_ScheduleConflict() {
+        // Add the implementation
+    }
+
+    // TC-99: Show actionable error message when credit limit exceeded
+    @Test
+    void testTC99_ErrorMessage_CreditLimitExceeded() {
+        // Add the implementation
+    }
+
+    // TC-100: Show actionable error message on duplicate section attempt
+    @Test
+    void testTC100_ErrorMessage_DuplicateSection() {
+        // Add the implementation
+    }
+
+    // --------------------------------------------------------
+    // N2 — Performance (TC-101 to TC-105)
+    // --------------------------------------------------------
+
+    // TC-101: Verify system responds within 2 seconds under standard load
+    @Test
+    void testTC101_Performance_StandardLoad() {
+        // Add the implementation
+    }
+
+    // TC-102: Verify system responds within 2 seconds under high load
+    @Test
+    void testTC102_Performance_HighLoad() {
+        // Add the implementation
+    }
+
+    // TC-103: Verify drop course response time is within 2 seconds
+    @Test
+    void testTC103_Performance_DropRequest() {
+        // Add the implementation
+    }
+
+    // TC-104: Verify search sections response time is within 2 seconds
+    @Test
+    void testTC104_Performance_SearchSections() {
+        // Add the implementation
+    }
+
+    // TC-105: Verify system responds within 2 seconds under maximum users
+    @Test
+    void testTC105_Performance_MaxUsers() {
+        // Add the implementation
     }
 }
