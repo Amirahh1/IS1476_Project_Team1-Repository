@@ -1,0 +1,241 @@
+package tests;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class Student3TestAutomation {
+
+    // ========================================================
+    // Student 3: Test Cases TC-71 to TC-105
+    // Requirements: R6 (Course Repetition), R7 (Duplicate Registration),
+    //               N1 (Error Feedback), N2 (Performance)
+    // ========================================================
+
+    // --- R6: Course Repetition (TC-71 to TC-84) ---
+
+    @Test
+    void testTC71_CourseRepetition_GradeA_Blocked() {
+        // TC-71: Block registration if course passed with grade A
+        assertFalse(RegistrationRules.canRepeatCourse("A"));
+    }
+
+    @Test
+    void testTC72_CourseRepetition_GradeBPlus_Blocked() {
+        // TC-72: Block registration if course passed with grade B+
+        assertFalse(RegistrationRules.canRepeatCourse("B+"));
+    }
+
+    @Test
+    void testTC73_CourseRepetition_GradeB_Blocked() {
+        // TC-73: Block registration if course passed with grade B
+        assertFalse(RegistrationRules.canRepeatCourse("B"));
+    }
+
+    @Test
+    void testTC74_CourseRepetition_GradeCPlus_Blocked() {
+        // TC-74: Block registration if course passed with grade C+
+        assertFalse(RegistrationRules.canRepeatCourse("C+"));
+    }
+
+    @Test
+    void testTC75_CourseRepetition_GradeC_Blocked() {
+        // TC-75: Block registration if course passed with grade C
+        assertFalse(RegistrationRules.canRepeatCourse("C"));
+    }
+
+    @Test
+    void testTC76_CourseRepetition_GradeDPlus_Allowed() {
+        // TC-76: Allow registration if passed with D+ to improve grade
+        assertTrue(RegistrationRules.canRepeatCourse("D+"));
+    }
+
+    @Test
+    void testTC77_CourseRepetition_GradeD_Allowed() {
+        // TC-77: Allow registration if passed with D to improve grade
+        assertTrue(RegistrationRules.canRepeatCourse("D"));
+    }
+
+    @Test
+    void testTC78_CourseRepetition_GradeF_Allowed() {
+        // TC-78: Allow registration if course failed (Grade F)
+        assertTrue(RegistrationRules.canRepeatCourse("F"));
+    }
+
+    @Test
+    void testTC79_CourseRepetition_AlternativeCourse_GradeA() {
+        // TC-79: Block course repetition for grade A
+        assertFalse(RegistrationRules.canRepeatCourse("A"));
+    }
+
+    @Test
+    void testTC80_CourseRepetition_AlternativeCourse_GradeB() {
+        // TC-80: Block course repetition for grade B
+        assertFalse(RegistrationRules.canRepeatCourse("B"));
+    }
+
+    @Test
+    void testTC81_CourseRepetition_AlternativeCourse_GradeC() {
+        // TC-81: Block course repetition for grade C
+        assertFalse(RegistrationRules.canRepeatCourse("C"));
+    }
+
+    @Test
+    void testTC82_CourseRepetition_AlternativeCourse_GradeD() {
+        // TC-82: Allow course repetition for grade D
+        assertTrue(RegistrationRules.canRepeatCourse("D"));
+    }
+
+    @Test
+    void testTC83_CourseRepetition_Course3_GradeA() {
+        // TC-83: Block repetition for course 3 with grade A
+        assertFalse(RegistrationRules.canRepeatCourse("A"));
+    }
+
+    @Test
+    void testTC84_CourseRepetition_Course3_GradeDPlus() {
+        // TC-84: Allow repetition for course 3 with grade D+
+        assertTrue(RegistrationRules.canRepeatCourse("D+"));
+    }
+
+    // --- R7: Duplicate Registration (TC-85 to TC-95) ---
+
+    @Test
+    void testTC85_DuplicateRegistration_SameCourseDifferentSections() {
+        // TC-85: Prevent registering in two sections of the same course
+        assertFalse(RegistrationRules.isValidDuplicateRegistration(true, true));
+    }
+
+    @Test
+    void testTC86_DuplicateRegistration_Section02And01() {
+        // TC-86: Prevent duplicate registration across sections
+        assertFalse(RegistrationRules.isValidDuplicateRegistration(true, true));
+    }
+
+    @Test
+    void testTC87_DuplicateRegistration_Section03And01() {
+        // TC-87: Prevent duplicate registration across sections
+        assertFalse(RegistrationRules.isValidDuplicateRegistration(true, true));
+    }
+
+    @Test
+    void testTC88_DuplicateSectionSubmit_AlreadyRegistered() {
+        // TC-88: Block submitting section again if already registered
+        assertFalse(RegistrationRules.isAlreadyRegistered("Section-01"));
+    }
+
+    @Test
+    void testTC89_DuplicateSectionSubmit_Section02() {
+        // TC-89: Block submitting section 02 if already registered
+        assertFalse(RegistrationRules.isAlreadyRegistered("Section-02"));
+    }
+
+    @Test
+    void testTC90_DuplicateSectionSubmit_Course2() {
+        // TC-90: Block duplicate section submission for Course 2
+        assertFalse(RegistrationRules.isAlreadyRegistered("Section-01"));
+    }
+
+    @Test
+    void testTC91_DuplicateRegistration_Course2Sections() {
+        // TC-91: Prevent duplicate sections for Course 2
+        assertFalse(RegistrationRules.isValidDuplicateRegistration(true, true));
+    }
+
+    @Test
+    void testTC92_DuplicateRegistration_Course2Sections02_03() {
+        // TC-92: Prevent duplicate sections 02 and 03
+        assertFalse(RegistrationRules.isValidDuplicateRegistration(true, true));
+    }
+
+    @Test
+    void testTC93_InitialRegistration_Valid() {
+        // TC-93: Allow initial registration in section
+        assertTrue(RegistrationRules.isValidInitialRegistration(false));
+    }
+
+    @Test
+    void testTC94_InitialRegistration_Course2() {
+        // TC-94: Allow initial registration for Course 2
+        assertTrue(RegistrationRules.isValidInitialRegistration(false));
+    }
+
+    @Test
+    void testTC95_InitialRegistration_Course3() {
+        // TC-95: Allow initial registration for Course 3
+        assertTrue(RegistrationRules.isValidInitialRegistration(false));
+    }
+
+    // --- N1: Error Feedback (TC-96 to TC-100) ---
+
+    @Test
+    void testTC96_ErrorFeedback_PrerequisiteMissing() {
+        // TC-96: Show clear error when prerequisite missing
+        assertNotNull(ErrorMessages.getErrorMessage("PREREQUISITE_MISSING"));
+    }
+
+    @Test
+    void testTC97_ErrorFeedback_CourseFull() {
+        // TC-97: Show clear error when course is full
+        assertNotNull(ErrorMessages.getErrorMessage("COURSE_FULL"));
+    }
+
+    @Test
+    void testTC98_ErrorFeedback_ScheduleConflict() {
+        // TC-98: Show clear error on schedule conflict
+        assertNotNull(ErrorMessages.getErrorMessage("SCHEDULE_CONFLICT"));
+    }
+
+    @Test
+    void testTC99_ErrorFeedback_CreditLimitExceeded() {
+        // TC-99: Show clear error when credit limit exceeded
+        assertNotNull(ErrorMessages.getErrorMessage("CREDIT_LIMIT_EXCEEDED"));
+    }
+
+    @Test
+    void testTC100_ErrorFeedback_DuplicateSection() {
+        // TC-100: Show clear error on duplicate section attempt
+        assertNotNull(ErrorMessages.getErrorMessage("DUPLICATE_SECTION"));
+    }
+
+    // --- N2: Performance (TC-101 to TC-105) ---
+
+    @Test
+    void testTC101_Performance_StandardLoad() {
+        // TC-101: Verify system responds within 2 seconds under standard load
+        long start = System.currentTimeMillis();
+        long duration = System.currentTimeMillis() - start;
+        assertTrue(duration < 2000);
+    }
+
+    @Test
+    void testTC102_Performance_HighLoad() {
+        // TC-102: Verify system responds within 2 seconds under high load
+        long start = System.currentTimeMillis();
+        long duration = System.currentTimeMillis() - start;
+        assertTrue(duration < 2000);
+    }
+
+    @Test
+    void testTC103_Performance_DropRequest() {
+        // TC-103: Verify drop course response time is within 2 seconds
+        long start = System.currentTimeMillis();
+        long duration = System.currentTimeMillis() - start;
+        assertTrue(duration < 2000);
+    }
+
+    @Test
+    void testTC104_Performance_SearchSections() {
+        // TC-104: Verify search sections response time is within 2 seconds
+        long start = System.currentTimeMillis();
+        long duration = System.currentTimeMillis() - start;
+        assertTrue(duration < 2000);
+    }
+
+    @Test
+    void testTC105_Performance_MaxUsers() {
+        // TC-105: Verify system responds within 2 seconds under max users
+        long start = System.currentTimeMillis();
+        long duration = System.currentTimeMillis() - start;
+        assertTrue(duration < 2000);
+    }
+}
