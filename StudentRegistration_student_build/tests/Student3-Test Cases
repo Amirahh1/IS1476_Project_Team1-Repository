@@ -1,0 +1,10 @@
+# Student 3 - Test Cases & Execution Results (TC-70 to TC-105)
+
+## Actual Test Results & Defect Log
+
+| Test Case | Requirement Area | Expected Result | Actual Result | Status | Defect ID | Notes |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **TC-70** | Repeating a Course (R6.1) | Block registration if course already passed with C or better | Registration blocked successfully | Pass | N/A | Verified via Automation |
+| **TC-85** | Repeating a Course (R6.2) | Allow registration if passed with D or D+ to improve grade | Registration allowed successfully | Pass | N/A | Verified via Automation |
+| **TC-95** | Duplicate Registration (R7.1) | Prevent registering in two sections of the same course | Duplicate entry blocked | Pass | N/A | Verified via Automation |
+| **TC-105** | Non-Functional Requirements (N2) | System responds within two seconds | Response time under 1 second | Pass | N/A | Performance verified |
