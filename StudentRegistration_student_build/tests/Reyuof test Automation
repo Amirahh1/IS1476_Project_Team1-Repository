@@ -3,10 +3,10 @@ package tests;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Student3TestAutomation {
+public class ReyuofTestAutomation {
 
     // ========================================================
-    // Student 3: Test Cases TC-71 to TC-105
+    // Student 3 (Reyuof): Test Cases TC-71 to TC-105
     // Requirements: R6 (Course Repetition), R7 (Duplicate Registration),
     //               N1 (Error Feedback), N2 (Performance)
     // ========================================================
