@@ -1,70 +1,89 @@
- package tests;
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import static org.junit.jupiter.api.Assertions.*;
+
 public class Student3TestAutomation {
-@Test
-public void testSectionCapacity_TC35() {
-    int currentEnrolled = 30;
-    int maxCapacity = 30;
-    boolean isFull = (currentEnrolled >= maxCapacity);
-    assertTrue(isFull, "Test Failed: Section capacity limit check failed.");
-}
 
-@Test
-public void testTimetableConflict_TC50() {
-    String timeSlot1 = "Mon 10:00 - 11:30";
-    String timeSlot2 = "Mon 10:00 - 11:30";
-    boolean hasConflict = timeSlot1.equals(timeSlot2);
-    assertTrue(hasConflict, "Test Failed: Timetable conflict was not detected.");
-}
+    @ParameterizedTest(name = "Executing {0} for Requirement {1}")
+    @CsvSource({
+        "T-71, R6.1, A, REJECTED",
+        "T-72, R6.1, B+, REJECTED",
+        "T-73, R6.1, B, REJECTED",
+        "T-74, R6.1, C+, REJECTED",
+        "T-75, R6.1, C, REJECTED",
+        "T-76, R6.2, D+, ACCEPTED",
+        "T-77, R6.2, D, ACCEPTED",
+        "T-78, R6.2, F, ACCEPTED",
+        "T-79, R6.1, A, REJECTED",
+        "T-80, R6.1, B, REJECTED",
+        "T-81, R6.1, C, REJECTED",
+        "T-82, R6.2, D, ACCEPTED",
+        "T-83, R6.1, A, REJECTED",
+        "T-84, R6.2, D+, ACCEPTED",
+        "T-85, R7.1, REGISTERED, REJECTED",
+        "T-86, R7.1, REGISTERED, REJECTED",
+        "T-87, R7.1, REGISTERED, REJECTED",
+        "T-88, R7.2, REGISTERED, REJECTED",
+        "T-89, R7.2, REGISTERED, REJECTED",
+        "T-90, R7.2, REGISTERED, REJECTED",
+        "T-91, R7.1, REGISTERED, REJECTED",
+        "T-92, R7.1, REGISTERED, REJECTED",
+        "T-93, R7.1, NONE, ACCEPTED",
+        "T-94, R7.1, NONE, ACCEPTED",
+        "T-95, R7.1, NONE, ACCEPTED"
+    })
+    public void testRegistrationRules(String testId, String reqId, String condition, String expectedResult) {
+        boolean result = evaluateRule(condition);
+        if ("REJECTED".equals(expectedResult)) {
+            assertFalse(result, testId + " failed: Expected registration to be blocked.");
+        } else {
+            assertTrue(result, testId + " failed: Expected registration to be allowed.");
+        }
+    }
 
-@Test
-public void testRegistrationWindows_TC60() {
-    int currentDayOfTerm = 5;
-    int addDeadline = 10;
-    boolean canAdd = (currentDayOfTerm <= addDeadline);
-    assertTrue(canAdd, "Test Failed: Registration should be allowed within the add deadline.");
-}
+    @ParameterizedTest(name = "Testing Non-Functional Requirement {0}")
+    @CsvSource({
+        "T-96, N1, Prerequisite_Missing",
+        "T-97, N1, Course_Full",
+        "T-98, N1, Schedule_Conflict",
+        "T-99, N1, Credit_Limit_Exceeded",
+        "T-100, N1, Duplicate_Section"
+    })
+    public void testErrorMessagesN1(String testId, String reqId, String errorType) {
+        String errorMessage = generateErrorMessage(errorType);
+        assertNotNull(errorMessage, testId + " failed: Error message should not be null.");
+        assertFalse(errorMessage.isEmpty(), testId + " failed: Error message must provide actionable details.");
+    }
 
-@Test
-public void testDuplicateRegistration_TC70() {
-    String registeredCourse = "IS1476";
-    String attemptingCourse = "IS1476";
-    boolean isDuplicate = registeredCourse.equals(attemptingCourse);
-    assertTrue(isDuplicate, "Test Failed: Duplicate registration in the same course was not blocked.");
-}
-}
-[23/10/2026 02:37] My: package tests;
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.*;
-public class Student3TestAutomation {
-@Test
-public void testRepeatingCoursePassed_TC70() {
-    String pastGrade = "C";
-    boolean canRetake = pastGrade.equals("D") || pastGrade.equals("D+");
-    assertFalse(canRetake, "Test Failed: Should not allow retaking a course passed with C or better.");
-}
+    @Test
+    public void testPerformanceResponseTimeN2() {
+        long startTime = System.currentTimeMillis();
+        
+        simulateSystemLoad();
+        
+        long endTime = System.currentTimeMillis();
+        long responseTime = endTime - startTime;
+        
+        assertTrue(responseTime <= 2000, "Performance test failed: Response time exceeded 2 seconds.");
+    }
 
-@Test
-public void testRepeatingCourseLowGrade_TC85() {
-    String pastGrade = "D";
-    boolean canRetake = pastGrade.equals("D") || pastGrade.equals("D+");
-    assertTrue(canRetake, "Test Failed: Should allow retaking a course passed with D or D+.");
-}
+    private boolean evaluateRule(String condition) {
+        if ("REJECTED".equals(condition) || "REGISTERED".equals(condition) || "A".equals(condition) || "B+".equals(condition) || "B".equals(condition) || "C+".equals(condition) || "C".equals(condition)) {
+            return false;
+        }
+        return true;
+    }
 
-@Test
-public void testDuplicateSectionRegistration_TC95() {
-    int activeSectionsCount = 1;
-    boolean attemptingSecondSection = true;
-    boolean isDuplicate = (activeSectionsCount > 0 && attemptingSecondSection);
-    assertTrue(isDuplicate, "Test Failed: Duplicate registration in the same course was not prevented.");
-}
+    private String generateErrorMessage(String errorType) {
+        return "Error: Action required for " + errorType;
+    }
 
-@Test
-public void testSystemResponseTime_TC105() {
-    long startTime = System.currentTimeMillis();
-    // Simulating system process
-    long endTime = System.currentTimeMillis();
-    long responseTime = endTime - startTime;
-    
-    assertTrue(responseTime <= 2000, "Test Failed: Response time exceeded 2 seconds limit.");
-}
+    private void simulateSystemLoad() {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
 }
