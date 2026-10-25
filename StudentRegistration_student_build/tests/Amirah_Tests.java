@@ -8,8 +8,8 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.*;
 
-//Test Cases from 106 to 140 but some of them can't be done using the JUnit 5.
-//Error Messages, Performance, Reliability, Security & Compatibility
+// Test Cases T-106 to T-140: JUnit validates backend Error Messages, Performance, Reliability, and offline logic.
+// Excluded: Web UI display, session Security (IDOR), real-world load, and cross-OS Compatibility require manual/integration testing.
 
 public class Amirah_Tests {
 
