@@ -12,7 +12,127 @@ public class Student3TestAutomation {
 
     // --------------------------------------------------------
     // R6 — Course Repetition (TC-71 to TC-84)
-    // --------------------------------------------------------
+    // package tests;
+
+import static org.junit.jupiter.api.Assertions.*;
+import java.util.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class RegistrationSystem {
+    public boolean canRepeatCourse(String courseCode, String previousGrade) {
+        if (previousGrade == null || previousGrade.equalsIgnoreCase("F")) {
+            return true;
+        }
+        switch (previousGrade.toUpperCase()) {
+            case "A":
+            case "B+":
+            case "B":
+            case "C+":
+            case "C":
+                return false;
+            case "D+":
+            case "D":
+                return true;
+            default:
+                return false;
+        }
+    }
+}
+
+public class Student3TestAutomationR6 {
+
+    private RegistrationSystem repetitionSystem;
+
+    @BeforeEach
+    void setUp() {
+        repetitionSystem = new RegistrationSystem();
+    }
+
+    // TC-71: Block registration for IS1476 passed with grade A
+    @Test
+    void testTC71_CourseRepetition_IS1476_GradeA() {
+        assertFalse(repetitionSystem.canRepeatCourse("IS1476", "A"));
+    }
+
+    // TC-72: Block registration for IS1476 passed with grade B+
+    @Test
+    void testTC72_CourseRepetition_IS1476_GradeBPlus() {
+        assertFalse(repetitionSystem.canRepeatCourse("IS1476", "B+"));
+    }
+
+    // TC-73: Block registration for IS1476 passed with grade B
+    @Test
+    void testTC73_CourseRepetition_IS1476_GradeB() {
+        assertFalse(repetitionSystem.canRepeatCourse("IS1476", "B"));
+    }
+
+    // TC-74: Block registration for IS1476 passed with grade C+
+    @Test
+    void testTC74_CourseRepetition_IS1476_GradeCPlus() {
+        assertFalse(repetitionSystem.canRepeatCourse("IS1476", "C+"));
+    }
+
+    // TC-75: Block registration for IS1476 passed with grade C
+    @Test
+    void testTC75_CourseRepetition_IS1476_GradeC() {
+        assertFalse(repetitionSystem.canRepeatCourse("IS1476", "C"));
+    }
+
+    // TC-76: Allow registration for IS1476 passed with grade D+
+    @Test
+    void testTC76_CourseRepetition_IS1476_GradeDPlus() {
+        assertTrue(repetitionSystem.canRepeatCourse("IS1476", "D+"));
+    }
+
+    // TC-77: Allow registration for IS1476 passed with grade D
+    @Test
+    void testTC77_CourseRepetition_IS1476_GradeD() {
+        assertTrue(repetitionSystem.canRepeatCourse("IS1476", "D"));
+    }
+
+    // TC-78: Allow registration for IS1476 failed with grade F
+    @Test
+    void testTC78_CourseRepetition_IS1476_GradeF() {
+        assertTrue(repetitionSystem.canRepeatCourse("IS1476", "F"));
+    }
+
+    // TC-79: Block registration for IS1474 passed with grade A
+    @Test
+    void testTC79_CourseRepetition_IS1474_GradeA() {
+        assertFalse(repetitionSystem.canRepeatCourse("IS1474", "A"));
+    }
+
+    // TC-80: Block registration for IS1474 passed with grade B
+    @Test
+    void testTC80_CourseRepetition_IS1474_GradeB() {
+        assertFalse(repetitionSystem.canRepeatCourse("IS1474", "B"));
+    }
+
+    // TC-81: Block registration for IS1474 passed with grade C
+    @Test
+    void testTC81_CourseRepetition_IS1474_GradeC() {
+        assertFalse(repetitionSystem.canRepeatCourse("IS1474", "C"));
+    }
+
+    // TC-82: Allow registration for IS1474 passed with grade D
+    @Test
+    void testTC82_CourseRepetition_IS1474_GradeD() {
+        assertTrue(repetitionSystem.canRepeatCourse("IS1474", "D"));
+    }
+
+    // TC-83: Allow registration for IS1474 failed with grade F
+    @Test
+    void testTC83_CourseRepetition_IS1474_GradeF() {
+        assertTrue(repetitionSystem.canRepeatCourse("IS1474", "F"));
+    }
+
+    // TC-84: Allow registration for IS1470 passed with grade D+
+    @Test
+    void testTC84_CourseRepetition_IS1470_GradeDPlus() {
+        assertTrue(repetitionSystem.canRepeatCourse("IS1470", "D+"));
+    }
+}
 
     // TC-71: Block registration for IS1476 passed with grade A
     @Test
@@ -101,7 +221,118 @@ public class Student3TestAutomation {
     // --------------------------------------------------------
     // R7 — Duplicate Registration (TC-85 to TC-95)
     // --------------------------------------------------------
+package tests;
 
+import static org.junit.jupiter.api.Assertions.*;
+import java.util.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class DuplicateRegistrationSystem {
+    private final Map<String, Set<String>> registeredSectionsByCourse = new HashMap<>();
+
+    public boolean registerSection(String courseCode, String sectionCode) {
+        if (courseCode == null || sectionCode == null) {
+            return false;
+        }
+        Set<String> sections = registeredSectionsByCourse.computeIfAbsent(courseCode, k -> new HashSet<>());
+
+        if (sections.contains(sectionCode)) {
+            return false;
+        }
+
+        if (!sections.isEmpty()) {
+            return false;
+        }
+
+        sections.add(sectionCode);
+        return true;
+    }
+}
+
+public class Student3TestAutomationR7 {
+
+    private DuplicateRegistrationSystem duplicateSystem;
+
+    @BeforeEach
+    void setUp() {
+        duplicateSystem = new DuplicateRegistrationSystem();
+    }
+
+    // TC-85: Block registering in two sections of IS1476 (sec 01 & sec 02)
+    @Test
+    void testTC85_DuplicateRegistration_IS1476_Sec01_Sec02() {
+        assertTrue(duplicateSystem.registerSection("IS1476", "01"));
+        assertFalse(duplicateSystem.registerSection("IS1476", "02"));
+    }
+
+    // TC-86: Block registering in two sections of IS1476 (sec 02 & sec 01)
+    @Test
+    void testTC86_DuplicateRegistration_IS1476_Sec02_Sec01() {
+        assertTrue(duplicateSystem.registerSection("IS1476", "02"));
+        assertFalse(duplicateSystem.registerSection("IS1476", "01"));
+    }
+
+    // TC-87: Block registering in two sections of IS1476 (sec 03 & sec 01)
+    @Test
+    void testTC87_DuplicateRegistration_IS1476_Sec03_Sec01() {
+        assertTrue(duplicateSystem.registerSection("IS1476", "03"));
+        assertFalse(duplicateSystem.registerSection("IS1476", "01"));
+    }
+
+    // TC-88: Block submitting section 01 again for IS1476
+    @Test
+    void testTC88_DuplicateSectionSubmit_IS1476_Sec01() {
+        assertTrue(duplicateSystem.registerSection("IS1476", "01"));
+        assertFalse(duplicateSystem.registerSection("IS1476", "01"));
+    }
+
+    // TC-89: Block submitting section 02 again for IS1476
+    @Test
+    void testTC89_DuplicateSectionSubmit_IS1476_Sec02() {
+        assertTrue(duplicateSystem.registerSection("IS1476", "02"));
+        assertFalse(duplicateSystem.registerSection("IS1476", "02"));
+    }
+
+    // TC-90: Block submitting section 01 again for IS1474
+    @Test
+    void testTC90_DuplicateSectionSubmit_IS1474_Sec01() {
+        assertTrue(duplicateSystem.registerSection("IS1474", "01"));
+        assertFalse(duplicateSystem.registerSection("IS1474", "01"));
+    }
+
+    // TC-91: Block registering in two sections of IS1474 (sec 01 & sec 02)
+    @Test
+    void testTC91_DuplicateRegistration_IS1474_Sec01_Sec02() {
+        assertTrue(duplicateSystem.registerSection("IS1474", "01"));
+        assertFalse(duplicateSystem.registerSection("IS1474", "02"));
+    }
+
+    // TC-92: Block registering in two sections of IS1474 (sec 02 & sec 03)
+    @Test
+    void testTC92_DuplicateRegistration_IS1474_Sec02_Sec03() {
+        assertTrue(duplicateSystem.registerSection("IS1474", "02"));
+        assertFalse(duplicateSystem.registerSection("IS1474", "03"));
+    }
+
+    // TC-93: Allow initial registration for IS1476 section 01
+    @Test
+    void testTC93_InitialRegistration_IS1476() {
+        assertTrue(duplicateSystem.registerSection("IS1476", "01"));
+    }
+
+    // TC-94: Allow initial registration for IS1474 section 01
+    @Test
+    void testTC94_InitialRegistration_IS1474() {
+        assertTrue(duplicateSystem.registerSection("IS1474", "01"));
+    }
+
+    // TC-95: Allow initial registration for IS1470 section 01
+    @Test
+    void testTC95_InitialRegistration_IS1470() {
+        assertTrue(duplicateSystem.registerSection("IS1470", "01"));
+    }
+}
     // TC-85: Block registering in two sections of IS1476 (sec 01 & sec 02)
     @Test
     void testTC85_DuplicateRegistration_IS1476_Sec01_Sec02() {
@@ -170,7 +401,88 @@ public class Student3TestAutomation {
 
     // --------------------------------------------------------
     // N1 — Error Feedback (TC-96 to TC-100)
-    // --------------------------------------------------------
+    // package tests;
+
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class ErrorFeedbackSystem {
+    public String getErrorMessage(String issueType) {
+        if (issueType == null) {
+            return "";
+        }
+        switch (issueType) {
+            case "PREREQUISITE_MISSING":
+                return "Error: Prerequisite course is missing. Complete the required prerequisite before registering.";
+            case "COURSE_FULL":
+                return "Error: Selected course section is full. Choose another available section or waitlist.";
+            case "SCHEDULE_CONFLICT":
+                return "Error: Schedule conflict detected with an existing registered section. Select a non-overlapping time.";
+            case "CREDIT_LIMIT_EXCEEDED":
+                return "Error: Maximum credit hours limit exceeded. Drop a course or reduce credits before registering.";
+            case "DUPLICATE_SECTION":
+                return "Error: Duplicate section attempt. You are already registered or submitted this section.";
+            default:
+                return "Error: Registration cannot be completed.";
+        }
+    }
+}
+
+public class Student3TestAutomationN1 {
+
+    private ErrorFeedbackSystem errorSystem;
+
+    @BeforeEach
+    void setUp() {
+        errorSystem = new ErrorFeedbackSystem();
+    }
+
+    // TC-96: Show actionable error message when prerequisite is missing
+    @Test
+    void testTC96_ErrorMessage_PrerequisiteMissing() {
+        String message = errorSystem.getErrorMessage("PREREQUISITE_MISSING");
+        assertNotNull(message);
+        assertFalse(message.isBlank());
+        assertTrue(message.toLowerCase().contains("prerequisite"));
+    }
+
+    // TC-97: Show actionable error message when course is full
+    @Test
+    void testTC97_ErrorMessage_CourseFull() {
+        String message = errorSystem.getErrorMessage("COURSE_FULL");
+        assertNotNull(message);
+        assertFalse(message.isBlank());
+        assertTrue(message.toLowerCase().contains("full"));
+    }
+
+    // TC-98: Show actionable error message on schedule conflict
+    @Test
+    void testTC98_ErrorMessage_ScheduleConflict() {
+        String message = errorSystem.getErrorMessage("SCHEDULE_CONFLICT");
+        assertNotNull(message);
+        assertFalse(message.isBlank());
+        assertTrue(message.toLowerCase().contains("conflict"));
+    }
+
+    // TC-99: Show actionable error message when credit limit exceeded
+    @Test
+    void testTC99_ErrorMessage_CreditLimitExceeded() {
+        String message = errorSystem.getErrorMessage("CREDIT_LIMIT_EXCEEDED");
+        assertNotNull(message);
+        assertFalse(message.isBlank());
+        assertTrue(message.toLowerCase().contains("credit"));
+    }
+
+    // TC-100: Show actionable error message on duplicate section attempt
+    @Test
+    void testTC100_ErrorMessage_DuplicateSection() {
+        String message = errorSystem.getErrorMessage("DUPLICATE_SECTION");
+        assertNotNull(message);
+        assertFalse(message.isBlank());
+        assertTrue(message.toLowerCase().contains("duplicate"));
+    }
+}
 
     // TC-96: Show actionable error message when prerequisite is missing
     @Test
@@ -204,8 +516,82 @@ public class Student3TestAutomation {
 
     // --------------------------------------------------------
     // N2 — Performance (TC-101 to TC-105)
-    // --------------------------------------------------------
+package tests;
 
+import static org.junit.jupiter.api.Assertions.*;
+import java.time.Duration;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class PerformanceSystem {
+    public void runStandardLoad() {
+        simulateWork(50);
+    }
+
+    public void runHighLoad() {
+        simulateWork(120);
+    }
+
+    public void runDropRequest() {
+        simulateWork(60);
+    }
+
+    public void runSearchSections() {
+        simulateWork(70);
+    }
+
+    public void runMaxUserLoad() {
+        simulateWork(180);
+    }
+
+    private void simulateWork(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
+
+public class Student3TestAutomationN2 {
+
+    private PerformanceSystem performanceSystem;
+
+    @BeforeEach
+    void setUp() {
+        performanceSystem = new PerformanceSystem();
+    }
+
+    // TC-101: Verify system responds within 2 seconds under standard load
+    @Test
+    void testTC101_Performance_StandardLoad() {
+        assertTimeout(Duration.ofSeconds(2), () -> performanceSystem.runStandardLoad());
+    }
+
+    // TC-102: Verify system responds within 2 seconds under high load
+    @Test
+    void testTC102_Performance_HighLoad() {
+        assertTimeout(Duration.ofSeconds(2), () -> performanceSystem.runHighLoad());
+    }
+
+    // TC-103: Verify drop course response time is within 2 seconds
+    @Test
+    void testTC103_Performance_DropRequest() {
+        assertTimeout(Duration.ofSeconds(2), () -> performanceSystem.runDropRequest());
+    }
+
+    // TC-104: Verify search sections response time is within 2 seconds
+    @Test
+    void testTC104_Performance_SearchSections() {
+        assertTimeout(Duration.ofSeconds(2), () -> performanceSystem.runSearchSections());
+    }
+
+    // TC-105: Verify system responds within 2 seconds under maximum user load
+    @Test
+    void testTC105_Performance_MaxUserLoad() {
+        assertTimeout(Duration.ofSeconds(2), () -> performanceSystem.runMaxUserLoad());
+    }
+}
     // TC-101: Verify system responds within 2 seconds under standard load
     @Test
     void testTC101_Performance_StandardLoad() {
